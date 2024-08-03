@@ -7,12 +7,12 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { mens_kurta } from '../../../data/mens_kurta';
 
-const HomeSectionCarousel = () => {
+const HomeSectionCarousel = ({data,sectionName}) => {
     const [activeIndex,setActiveIndex]=useState(0);
     const responsive = {
         0: { items: 1 },
         720: { items: 3 },
-        1024: { items: 3 },
+        1024: { items: 4 },
     };
     const slidePrev=()=>{
         setActiveIndex(activeIndex-1)};
@@ -20,12 +20,13 @@ const HomeSectionCarousel = () => {
     const slideNext=()=>setActiveIndex(activeIndex+1);
 
     const syncActiveIndex=({item})=>setActiveIndex(item)
-    const items = mens_kurta.slice(0,10).map((item, index) => (
+    const items = data.slice(activeIndex,data.length).map((item, index) => (
         <HomeSectionCard key={index} product={item} />
     ));
 
-    return (
+    return [
         <div className="relative px-4 lg:px-8 border">
+            <h2 className='text-2xl font-extrabold text-gray-800 py-5'>{sectionName}</h2>
             <div className="relative p-5 ">
                 <AliceCarousel
                     
@@ -45,7 +46,7 @@ const HomeSectionCarousel = () => {
                 >
                     <KeyboardArrowRightIcon className="transform rotate-180" />
                 </Button>}
-                {activeIndex!==items.length-5 && <Button 
+                {activeIndex<=items.length+5 && <Button 
                     variant="contained"
                     onClick={slideNext} 
                     className="absolute z-50 top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 rotate-90"
@@ -55,7 +56,12 @@ const HomeSectionCarousel = () => {
                 </Button>}
             </div>
         </div>
-    );
+    ];
 }
 
 export default HomeSectionCarousel;
+
+
+
+
+
